@@ -6,15 +6,30 @@ on:
   workflow_dispatch:
 
 jobs:
+  # ==================================================================
   # ۱) ساخت MDavariVPN.exe روی ویندوز
+  # ==================================================================
   windows-exe:
     runs-on: windows-latest
     steps:
       - name: دریافت کد
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
+
+      - name: پیدا کردن محل پروژه
+        id: proj
+        shell: bash
+        run: |
+          if [ -f "main.py" ]; then
+            echo "dir=." >> "$GITHUB_OUTPUT"
+          elif [ -f "MDavariVPN/main.py" ]; then
+            echo "dir=MDavariVPN" >> "$GITHUB_OUTPUT"
+          else
+            echo "::error::فایل main.py پیدا نشد"; ls -la; exit 1
+          fi
+          echo "پروژه در: $(cat "$GITHUB_OUTPUT" | tail -1)"
 
       - name: نصب پایتون
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v6
         with:
           python-version: "3.12"
 
@@ -22,30 +37,47 @@ jobs:
         run: python -m pip install --upgrade pip pyinstaller
 
       - name: ساخت فایل اجرایی
-        run: >
-          python -m PyInstaller --noconfirm --clean --onefile --windowed
-          --name MDavariVPN --icon "app/ui/icon.ico"
-          --add-data "app;app" main.py
+        shell: pwsh
+        working-directory: ${{ steps.proj.outputs.dir }}
+        run: |
+          Write-Host "پوشه‌ی کاری: $(Get-Location)"
+          Get-ChildItem | Select-Object Name
+          $extra = @()
+          if (Test-Path "app/ui/icon.ico") { $extra = @("--icon", "app/ui/icon.ico") }
+          python -m PyInstaller --noconfirm --clean --onefile --windowed `
+            --name MDavariVPN @extra --add-data "app;app" main.py
 
       - name: بارگذاری خروجی
         uses: actions/upload-artifact@v4
         with:
           name: MDavariVPN-windows
-          path: dist/MDavariVPN.exe
+          path: ${{ steps.proj.outputs.dir }}/dist/MDavariVPN.exe
           if-no-files-found: error
 
+  # ==================================================================
   # ۲) ساخت app-debug.apk برای اندروید
+  # ==================================================================
   android-apk:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: android
     steps:
       - name: دریافت کد
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
+
+      - name: پیدا کردن محل پروژه
+        id: proj
+        shell: bash
+        run: |
+          if [ -d "android" ]; then
+            echo "dir=." >> "$GITHUB_OUTPUT"
+          elif [ -d "MDavariVPN/android" ]; then
+            echo "dir=MDavariVPN" >> "$GITHUB_OUTPUT"
+          else
+            echo "::error::پوشه‌ی android پیدا نشد"; ls -la; exit 1
+          fi
+          echo "پروژه در: $(cat "$GITHUB_OUTPUT" | tail -1)"
 
       - name: نصب جاوا ۱۷
-        uses: actions/setup-java@v4
+        uses: actions/setup-java@v5
         with:
           distribution: temurin
           java-version: "17"
@@ -56,17 +88,25 @@ jobs:
       - name: دریافت SDK لازم
         run: sdkmanager --install "platform-tools" "platforms;android-34" "build-tools;34.0.0" --channel=0
 
+      - name: نمایش وضعیت ابزارها
+        run: |
+          java -version
+          gradle --version || true
+          echo "---- ساختار پروژه ----"
+          ls -la "${{ steps.proj.outputs.dir }}/android"
+
       - name: نصب Gradle
         uses: gradle/actions/setup-gradle@v4
         with:
           gradle-version: "8.7"
 
       - name: ساخت APK دیباگ
+        working-directory: ${{ steps.proj.outputs.dir }}/android
         run: gradle assembleDebug --no-daemon --stacktrace
 
       - name: بارگذاری خروجی
         uses: actions/upload-artifact@v4
         with:
           name: MDavariVPN-android-apk
-          path: android/app/build/outputs/apk/debug/app-debug.apk
+          path: ${{ steps.proj.outputs.dir }}/android/app/build/outputs/apk/debug/app-debug.apk
           if-no-files-found: error
