@@ -1,6 +1,5 @@
 name: build-all
 
-# با هر کامیت خودکار اجرا میشود + دکمهی Run workflow هم دارد
 on:
   push:
   workflow_dispatch:
@@ -26,7 +25,6 @@ jobs:
           else
             echo "::error::فایل main.py پیدا نشد"; ls -la; exit 1
           fi
-          echo "پروژه در: $(cat "$GITHUB_OUTPUT" | tail -1)"
 
       - name: نصب پایتون
         uses: actions/setup-python@v6
@@ -40,8 +38,6 @@ jobs:
         shell: pwsh
         working-directory: ${{ steps.proj.outputs.dir }}
         run: |
-          Write-Host "پوشه‌ی کاری: $(Get-Location)"
-          Get-ChildItem | Select-Object Name
           $extra = @()
           if (Test-Path "app/ui/icon.ico") { $extra = @("--icon", "app/ui/icon.ico") }
           python -m PyInstaller --noconfirm --clean --onefile --windowed `
@@ -59,6 +55,9 @@ jobs:
   # ==================================================================
   android-apk:
     runs-on: ubuntu-latest
+    env:
+      ANDROID_HOME: /usr/local/lib/android/sdk
+      ANDROID_SDK_ROOT: /usr/local/lib/android/sdk
     steps:
       - name: دریافت کد
         uses: actions/checkout@v5
@@ -74,7 +73,6 @@ jobs:
           else
             echo "::error::پوشه‌ی android پیدا نشد"; ls -la; exit 1
           fi
-          echo "پروژه در: $(cat "$GITHUB_OUTPUT" | tail -1)"
 
       - name: نصب جاوا ۱۷
         uses: actions/setup-java@v5
@@ -82,23 +80,46 @@ jobs:
           distribution: temurin
           java-version: "17"
 
-      - name: نصب ابزارهای اندروید
-        uses: android-actions/setup-android@v3
-
-      - name: دریافت SDK لازم
-        run: sdkmanager --install "platform-tools" "platforms;android-34" "build-tools;34.0.0" --channel=0
-
-      - name: نمایش وضعیت ابزارها
+      # ✂ این مرحله جای اکشن خرابِ setup-android را گرفته:
+      # رانرهای گیت‌هاب خودشان Android SDK دارند، فقط پکیج‌های لازم را کامل می‌کنیم.
+      # اگر هم این مرحله شکست بخورد، بیلد متوقف نمی‌شود (continue-on-error).
+      - name: آماده‌سازی Android SDK (روی ماشین از قبل نصب است)
+        continue-on-error: true
         run: |
-          java -version
-          gradle --version || true
-          echo "---- ساختار پروژه ----"
-          ls -la "${{ steps.proj.outputs.dir }}/android"
+          SDK="${ANDROID_HOME:-/usr/local/lib/android/sdk}"
+          echo "ANDROID_HOME=$SDK"
+          ls -la "$SDK" || true
+
+          SDKM="$(command -v sdkmanager || true)"
+          if [ -z "$SDKM" ] && [ -x "$SDK/cmdline-tools/latest/bin/sdkmanager" ]; then
+            SDKM="$SDK/cmdline-tools/latest/bin/sdkmanager"
+            export PATH="$SDK/cmdline-tools/latest/bin:$PATH"
+          fi
+          echo "sdkmanager = ${SDKM:-پیدا نشد}"
+
+          if [ -n "$SDKM" ]; then
+            (yes | "$SDKM" --licenses > /dev/null 2>&1) || true
+            "$SDKM" --install "platform-tools" "platforms;android-34" "build-tools;34.0.0" || true
+            echo "---- پکیج‌های نصب‌شده ----"
+            "$SDKM" --list_installed 2>/dev/null | head -40 || true
+          fi
+
+          echo "---- پوشه‌های SDK ----"
+          ls "$SDK/platforms" 2>/dev/null || true
+          ls "$SDK/build-tools" 2>/dev/null || true
 
       - name: نصب Gradle
         uses: gradle/actions/setup-gradle@v4
         with:
           gradle-version: "8.7"
+
+      - name: تنظیم مسیر SDK برای Gradle
+        working-directory: ${{ steps.proj.outputs.dir }}/android
+        run: |
+          echo "sdk.dir=$ANDROID_HOME" > local.properties
+          echo "android.builder.sdkDownload=true" >> gradle.properties
+          echo "android.suppressUnsupportedCompileSdk=34" >> gradle.properties
+          echo "---- gradle.properties ----"; cat gradle.properties
 
       - name: ساخت APK دیباگ
         working-directory: ${{ steps.proj.outputs.dir }}/android
