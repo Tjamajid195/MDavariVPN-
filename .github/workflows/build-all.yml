@@ -1,0 +1,72 @@
+name: build-all
+
+# با هر کامیت خودکار اجرا میشود + دکمهی Run workflow هم دارد
+on:
+  push:
+  workflow_dispatch:
+
+jobs:
+  # ۱) ساخت MDavariVPN.exe روی ویندوز
+  windows-exe:
+    runs-on: windows-latest
+    steps:
+      - name: دریافت کد
+        uses: actions/checkout@v4
+
+      - name: نصب پایتون
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: نصب PyInstaller
+        run: python -m pip install --upgrade pip pyinstaller
+
+      - name: ساخت فایل اجرایی
+        run: >
+          python -m PyInstaller --noconfirm --clean --onefile --windowed
+          --name MDavariVPN --icon "app/ui/icon.ico"
+          --add-data "app;app" main.py
+
+      - name: بارگذاری خروجی
+        uses: actions/upload-artifact@v4
+        with:
+          name: MDavariVPN-windows
+          path: dist/MDavariVPN.exe
+          if-no-files-found: error
+
+  # ۲) ساخت app-debug.apk برای اندروید
+  android-apk:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: android
+    steps:
+      - name: دریافت کد
+        uses: actions/checkout@v4
+
+      - name: نصب جاوا ۱۷
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+
+      - name: نصب ابزارهای اندروید
+        uses: android-actions/setup-android@v3
+
+      - name: دریافت SDK لازم
+        run: sdkmanager --install "platform-tools" "platforms;android-34" "build-tools;34.0.0" --channel=0
+
+      - name: نصب Gradle
+        uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: "8.7"
+
+      - name: ساخت APK دیباگ
+        run: gradle assembleDebug --no-daemon --stacktrace
+
+      - name: بارگذاری خروجی
+        uses: actions/upload-artifact@v4
+        with:
+          name: MDavariVPN-android-apk
+          path: android/app/build/outputs/apk/debug/app-debug.apk
+          if-no-files-found: error
