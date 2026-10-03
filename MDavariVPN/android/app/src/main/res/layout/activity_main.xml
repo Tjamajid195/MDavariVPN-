@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/bg">
+
+    <FrameLayout
+        android:id="@+id/pageContainer"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <include android:id="@+id/pageHome" layout="@layout/page_home" />
+        <include android:id="@+id/pageServers" layout="@layout/page_servers" />
+        <include android:id="@+id/pageShop" layout="@layout/page_shop" />
+        <include android:id="@+id/pageSettings" layout="@layout/page_settings" />
+    </FrameLayout>
+
+    <include layout="@layout/nav_bar" />
+</LinearLayout>

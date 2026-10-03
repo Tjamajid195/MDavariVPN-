@@ -1,0 +1,286 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg"
+    android:fillViewport="true"
+    android:scrollbars="none">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingStart="14dp"
+        android:paddingEnd="14dp"
+        android:paddingBottom="8dp">
+
+        <!-- هدر -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:paddingTop="10dp">
+
+            <ImageButton
+                android:id="@+id/btnTelegram"
+                android:layout_width="46dp"
+                android:layout_height="46dp"
+                android:background="@drawable/bg_icon_button"
+                android:src="@drawable/ic_plane"
+                android:contentDescription="@string/nav_shop"
+                android:scaleType="centerInside" />
+
+            <ImageButton
+                android:id="@+id/btnHeaderRefresh"
+                android:layout_width="46dp"
+                android:layout_height="46dp"
+                android:layout_marginStart="8dp"
+                android:background="@drawable/bg_icon_button"
+                android:src="@drawable/ic_refresh"
+                android:contentDescription="@string/btn_new_list"
+                android:scaleType="centerInside" />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_weight="1" />
+
+            <TextView
+                android:id="@+id/txtDevId"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_badge"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp"
+                android:text="@string/vip_badge"
+                android:textColor="@color/green"
+                android:textSize="11sp"
+                android:textStyle="bold" />
+
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginStart="10dp"
+                android:src="@drawable/ic_shield" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="6dp"
+                android:text="@string/app_name"
+                android:textColor="@color/text"
+                android:textSize="19sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <!-- وضعیت -->
+        <TextView
+            android:id="@+id/txtStatusTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:gravity="center"
+            android:text="@string/ready_title"
+            android:textColor="@color/accent"
+            android:textSize="21sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/txtStatusSub"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:gravity="center"
+            android:text="@string/ready_sub"
+            android:textColor="@color/muted"
+            android:textSize="14sp" />
+
+        <!-- دکمه‌ی سپر -->
+        <com.mdavari.vpn.ui.ShieldView
+            android:id="@+id/shieldView"
+            android:layout_width="match_parent"
+            android:layout_height="320dp"
+            android:layout_marginTop="2dp" />
+
+        <TextView
+            android:id="@+id/txtIpPill"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:background="@drawable/bg_pill"
+            android:gravity="center"
+            android:paddingTop="11dp"
+            android:paddingBottom="11dp"
+            android:text="@string/ready_sub"
+            android:textColor="@color/text"
+            android:textSize="14sp" />
+
+        <!-- کارت سرورهای هوشمند -->
+        <LinearLayout
+            android:id="@+id/cardSmart"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/bg_card"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:padding="12dp">
+
+            <ImageView
+                android:layout_width="44dp"
+                android:layout_height="44dp"
+                android:background="@drawable/bg_card2"
+                android:padding="9dp"
+                android:src="@drawable/ic_crown"
+                android:tint="@color/accent" />
+
+            <ImageButton
+                android:id="@+id/btnCardBack"
+                android:layout_width="44dp"
+                android:layout_height="44dp"
+                android:layout_marginStart="8dp"
+                android:background="@drawable/bg_card2"
+                android:src="@drawable/ic_back"
+                android:contentDescription="@string/nav_servers"
+                android:scaleType="centerInside" />
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_weight="1"
+                android:gravity="end"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/txtCardTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/smart_servers"
+                    android:textColor="@color/text"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/txtCardValue"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:gravity="end"
+                    android:text="@string/ready_sub"
+                    android:textColor="@color/muted"
+                    android:textSize="12sp" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- جزئیات اتصال -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/bg_card"
+            android:orientation="vertical"
+            android:padding="12dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="22dp"
+                    android:layout_height="22dp"
+                    android:src="@drawable/ic_bolt"
+                    android:tint="@color/accent" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="6dp"
+                    android:text="@string/details"
+                    android:textColor="@color/text"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@drawable/bg_card2"
+                    android:orientation="vertical"
+                    android:padding="10dp">
+
+                    <TextView style="@style/MutedLabel" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/lbl_server" />
+                    <TextView android:id="@+id/txtInfoServer" style="@style/CardValue" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="2dp" android:ellipsize="middle" android:singleLine="true" android:text="—" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/bg_card2"
+                    android:orientation="vertical"
+                    android:padding="10dp">
+
+                    <TextView style="@style/MutedLabel" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/lbl_country" />
+                    <TextView android:id="@+id/txtInfoCountry" style="@style/CardValue" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="2dp" android:text="—" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@drawable/bg_card2"
+                    android:orientation="vertical"
+                    android:padding="10dp">
+
+                    <TextView style="@style/MutedLabel" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/lbl_ping" />
+                    <TextView android:id="@+id/txtInfoPing" style="@style/CardValue" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="2dp" android:text="—" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/bg_card2"
+                    android:orientation="vertical"
+                    android:padding="10dp">
+
+                    <TextView style="@style/MutedLabel" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/lbl_uptime" />
+                    <TextView android:id="@+id/txtInfoUptime" style="@style/CardValue" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="2dp" android:text="—" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal">
+
+                <Button android:id="@+id/btnSwitchIp" style="@style/GhostButton" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:text="@string/btn_switch_ip" />
+                <Button android:id="@+id/btnPingQuick" style="@style/GhostButton" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:layout_marginStart="6dp" android:text="@string/btn_ping" />
+                <Button android:id="@+id/btnNewList" style="@style/GhostButton" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:layout_marginStart="6dp" android:text="@string/btn_new_list" />
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+</ScrollView>

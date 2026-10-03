@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">MDavari VPN</string>
+    <string name="vip_badge">VIP PRO</string>
+    <string name="ready_title">آماده اتصال • ۱۸۰ روز اعتبار</string>
+    <string name="ready_sub">برای اتصال لمس کنید</string>
+    <string name="protected_title">متصل و ایمن</string>
+    <string name="protected_sub">برای قطع لمس کنید</string>
+    <string name="smart_servers">سرورهای هوشمند</string>
+    <string name="details">جزئیات اتصال</string>
+    <string name="lbl_server">سرور فعلی</string>
+    <string name="lbl_country">کشور</string>
+    <string name="lbl_ping">پینگ واقعی</string>
+    <string name="lbl_uptime">مدت اتصال</string>
+    <string name="btn_new_list">لیست جدید</string>
+    <string name="btn_ping">تست پینگ</string>
+    <string name="btn_switch_ip">تغییر IP</string>
+    <string name="btn_connect_best">⚡ اتصال هوشمند به سریع‌ترین سرور</string>
+    <string name="servers_title">انتخاب کشور و سرورهای هوشمند</string>
+    <string name="all_countries">همه کشورها</string>
+    <string name="only_alive">فقط سرورهای فعال</string>
+    <string name="settings_title">تنظیمات پیشرفته</string>
+    <string name="live_log">گزارش زنده‌ی عملیات (Live log):</string>
+    <string name="shop_title">اشتراک و پشتیبانی</string>
+    <string name="nav_home">خانه</string>
+    <string name="nav_servers">سرورها</string>
+    <string name="nav_shop">اشتراک</string>
+    <string name="nav_settings">تنظیمات</string>
+</resources>

@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="76dp"
+    android:orientation="horizontal"
+    android:background="@color/bg"
+    android:gravity="center_vertical"
+    android:paddingStart="14dp"
+    android:paddingEnd="14dp"
+    android:paddingBottom="10dp">
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:background="@drawable/bg_nav"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingStart="8dp"
+        android:paddingEnd="8dp">
+
+        <FrameLayout
+            android:id="@+id/navSettings"
+            android:layout_width="0dp"
+            android:layout_height="56dp"
+            android:layout_weight="1">
+            <ImageView
+                android:id="@+id/iconNavSettings"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:layout_gravity="center"
+                android:src="@drawable/ic_gear"
+                android:alpha="0.65" />
+        </FrameLayout>
+
+        <FrameLayout
+            android:id="@+id/navShop"
+            android:layout_width="0dp"
+            android:layout_height="56dp"
+            android:layout_weight="1">
+            <ImageView
+                android:id="@+id/iconNavShop"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:layout_gravity="center"
+                android:src="@drawable/ic_diamond"
+                android:alpha="0.65" />
+        </FrameLayout>
+
+        <FrameLayout
+            android:id="@+id/navHome"
+            android:layout_width="0dp"
+            android:layout_height="56dp"
+            android:layout_weight="1">
+            <View
+                android:id="@+id/navHomeBg"
+                android:layout_width="74dp"
+                android:layout_height="46dp"
+                android:layout_gravity="center"
+                android:background="@drawable/bg_nav_active" />
+            <ImageView
+                android:id="@+id/iconNavHome"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:layout_gravity="center"
+                android:src="@drawable/ic_home"
+                android:tint="@color/ink" />
+        </FrameLayout>
+
+        <FrameLayout
+            android:id="@+id/navServers"
+            android:layout_width="0dp"
+            android:layout_height="56dp"
+            android:layout_weight="1">
+            <ImageView
+                android:id="@+id/iconNavServers"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:layout_gravity="center"
+                android:src="@drawable/ic_person"
+                android:alpha="0.65" />
+        </FrameLayout>
+    </LinearLayout>
+</LinearLayout>
